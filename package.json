@@ -1,0 +1,24 @@
+{
+  "name": "movie-app-node",
+  "version": "1.0.0",
+  "description": "movie app restful api",
+  "main": "config.js",
+  "scripts": {
+    "start": "nodemon node config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khoramparham/movie-app-node.git"
+  },
+  "author": "Parham Khoram",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/khoramparham/movie-app-node/issues"
+  },
+  "homepage": "https://github.com/khoramparham/movie-app-node#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "mongoose": "^6.4.4",
+    "nodemon": "^2.0.18"
+  }
+}
