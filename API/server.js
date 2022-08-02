@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const path = require("path");
 
 module.exports = class Application {
   #express = require("express");
@@ -12,15 +11,16 @@ module.exports = class Application {
     this.errorHandler();
   }
   configApplication() {
+    const path = require("path");
     this.#app.use(this.#express.json());
     this.#app.use(this.#express.urlencoded({ extended: true }));
-    // this.#app.use(this.#express.static(path.join(__dirname, "..", " public")))
+    this.#app.use(this.#express.static(path.join(__dirname, "..", " public")));
   }
   createServer(PORT) {
     const http = require("http");
     const server = http.createServer(this.#app);
     server.listen(PORT, () => {
-      console.log(`Server run in port : ${PORT}`);
+      console.log(`Server run on port : ${PORT}`);
     });
   }
   configDataBase(DB_URL) {
@@ -39,9 +39,9 @@ module.exports = class Application {
         message: "صفحه ی مورد نظر یافت نشد",
       });
     });
-    this.#app.use((error, req, res, next) => {
-      const status = error?.status || 500;
-      const message = error?.message || "Internal server error";
+    this.#app.use((err, req, res, next) => {
+      const status = err?.status || 500;
+      const message = err?.message || "Internal server error";
       return res.status(status).json({
         status,
         success: false,
@@ -49,10 +49,10 @@ module.exports = class Application {
       });
     });
   }
-  
+
   createRoutes() {
-    this.#app.get("/", (res, req, next) => {
-      return res.status(200).json({
+    this.#app.get("/", (req, res, next) => {
+      return res.json({
         message: "this is a new experess app",
       });
     });
