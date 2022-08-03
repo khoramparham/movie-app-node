@@ -51,10 +51,18 @@ module.exports = class Application {
   }
 
   createRoutes() {
+    const { allRoutes } = require("./Router/router");
     this.#app.get("/", (req, res, next) => {
       return res.json({
         message: "this is a new experess app",
       });
+    });
+    this.#app.use((req, res, next) => {
+      try {
+        this.#app.use(allRoutes);
+      } catch (error) {
+        next(error);
+      }
     });
   }
 };

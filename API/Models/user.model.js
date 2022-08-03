@@ -19,6 +19,7 @@ const UserSchema = new mongoose.Schema(
       required: false,
       default: null,
     },
+    status: { type: String, required: false },
     // insertDate: { type: Date, default: new Date().toISOString(), required: true },
     updatedBy: {
       type: mongoose.Types.ObjectId,
