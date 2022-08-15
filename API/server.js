@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+
 
 module.exports = class Application {
   #express = require("express");
@@ -6,29 +6,39 @@ module.exports = class Application {
   constructor(PORT, DB_URL) {
     this.configDataBase(DB_URL);
     this.configApplication();
-    this.createServer(PORT);
     this.createRoutes();
+    this.createServer(PORT);
     this.errorHandler();
+  }
+  configDataBase(DB_URL) {
+    const mongoose = require("mongoose");
+    mongoose.connect(DB_URL, (error) => {
+      if (error) {
+        throw error;
+      }
+      return console.log("Connect to DB successful...");
+    });
   }
   configApplication() {
     const path = require("path");
+    this.#app.use(this.#express.static(path.join(__dirname, "..", " public")));
     this.#app.use(this.#express.json());
     this.#app.use(this.#express.urlencoded({ extended: true }));
-    this.#app.use(this.#express.static(path.join(__dirname, "..", " public")));
+  }
+  createRoutes() {
+    const { allRoutes } = require("./Router/router");
+    this.#app.get("/", (req, res, next) => {
+      return res.json({
+        message: "this is a new experess app",
+      });
+    });
+    this.#app.use(allRoutes);
   }
   createServer(PORT) {
     const http = require("http");
     const server = http.createServer(this.#app);
     server.listen(PORT, () => {
       console.log(`Server run on port : ${PORT}`);
-    });
-  }
-  configDataBase(DB_URL) {
-    mongoose.connect(DB_URL, (error) => {
-      if (error) {
-        throw error;
-      }
-      return console.log("Connect to DB successful...");
     });
   }
   errorHandler() {
@@ -47,22 +57,6 @@ module.exports = class Application {
         success: false,
         message,
       });
-    });
-  }
-
-  createRoutes() {
-    const { allRoutes } = require("./Router/router");
-    this.#app.get("/", (req, res, next) => {
-      return res.json({
-        message: "this is a new experess app",
-      });
-    });
-    this.#app.use((req, res, next) => {
-      try {
-        this.#app.use(allRoutes);
-      } catch (error) {
-        next(error);
-      }
     });
   }
 };

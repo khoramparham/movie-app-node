@@ -4,7 +4,7 @@
   "description": "movie app restful api",
   "main": "config.js",
   "scripts": {
-    "start": "nodemon node config.js"
+    "start": "nodemon config.js"
   },
   "repository": {
     "type": "git",
@@ -17,8 +17,10 @@
   },
   "homepage": "https://github.com/khoramparham/movie-app-node#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "express": "^4.18.1",
+    "express-validator": "^6.14.2",
     "mongoose": "^6.4.4",
-    "nodemon": "^2.0.18"
+    "nodemon": "^2.0.19"
   }
 }
