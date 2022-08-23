@@ -2,22 +2,51 @@ const { UserModel } = require("../Models/user.model");
 class UserController {
   async getProfile(req, res, next) {
     try {
-      // const { firstName, LastName, _id } = req.body;
-      // const user = await UserModel.findById({ _id });
-      const user = req.user
+      const user = req.user;
       return res.status(200).json({
         status: 200,
         success: true,
-        user
+        user,
       });
     } catch (error) {
       next(error);
     }
   }
-  async updateUser(res, req, next) {}
-  async deleteUser(res, req, next) {}
-  async findUser(res, req, next) {}
-  async searchUser(res, req, next) {}
+  async updateUser(req, res, next) {
+    try {
+      const { firstName, lastName } = req.body;
+      const userID = req.user._id;
+      await UserModel.findByIdAndUpdate(
+        { _id: userID },
+        {
+          firstName: firstName,
+          lastName: lastName,
+        }
+      );
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        message: "کاریر به روز رسانی شد",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+  async deleteUser(req, res, next) {
+    try {
+      const userID = req.user._id;
+      await UserModel.deleteOne({ _id: userID });
+      return res.status(200).json({
+        status: 200,
+        success: true,
+        message: "کاریر حذف شد",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+  async findUser(req, res, next) {}
+  async searchUser(req, res, next) {}
 }
 module.exports = {
   UserController: new UserController(),

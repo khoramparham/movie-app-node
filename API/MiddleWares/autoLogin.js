@@ -9,7 +9,6 @@ async function checkLogin(req, res, next) {
     if (!token)throw { status: 401, message: "لطفا وارد حساب کاربری خود شوید" };
     const result = tokenVerify(token);
     const {userName} = result;
-    console.log(result);
     const user = await UserModel.findOne({userName},{password : 0});
     if(!user) throw { status: 401, message: "لطفا وارد حساب کاربری خود شوید" };
     req.user = user;
