@@ -19,8 +19,29 @@ function tokenVerify(token) {
   return result;
 }
 
+function createPath() {
+  const path = require("path");
+  const fs = require("fs");
+
+  const Year = "" + new Date().getFullYear();
+  const Month = "" + new Date().getMonth();
+  const Day = "" + new Date().getDay();
+  const uploadPath = path.join(
+    __dirname,
+    "..",
+    "..",
+    "public",
+    "upload",
+    Year,
+    Month,
+    Day
+  );
+  fs.mkdirSync(uploadPath, { recursive: true });
+  return path.join("public", "upload", Year, Month, Day);
+}
 module.exports = {
   hashString,
   tokenGenerator,
   tokenVerify,
+  createPath,
 };
