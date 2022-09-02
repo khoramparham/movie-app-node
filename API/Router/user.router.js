@@ -12,9 +12,9 @@ router.delete("/delete", checkLogin, UserController.deleteUser);
 router.post(
   "/uploadProfileImage",
   checkLogin,
+  uploadMulter.single("img"),
   imageValidator(),
   expressValidatorMapper,
-  uploadMulter.single("img"),
   UserController.uploadProfileImage
 );
 module.exports = {

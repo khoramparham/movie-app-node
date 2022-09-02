@@ -4,13 +4,13 @@ const movieSchema = new mongoose.Schema(
   {
     name: { type: String, default: "", required: true },
     description: { type: String, default: "", required: false },
-    rate: { type: String, default: "", required: false },
+    rate: { type: Number, default: "", required: false },
     director: { type: mongoose.Types.ObjectId, ref: "User", required: false },
     category: [
       { type: mongoose.Types.ObjectId, ref: "Category", required: false },
     ],
     // like :  {},
-    Photo: { type: mongoose.Types.ObjectId, ref: "Photo", required: false },
+    // Photo: { type: mongoose.Types.ObjectId, ref: "Picture", required: false },
     insertedBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",

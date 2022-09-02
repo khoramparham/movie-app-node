@@ -51,7 +51,7 @@ class UserController {
       const userID = req.user._id;
       if (Object.keys(req.file).length == 0)
         throw { status: 400, message: "تصویر را انتخاب کنید" };
-      const filePath = req.file?.path;
+      const filePath = req.file?.path?.substring(7).replace(/[\\\\]/gm,"/");
       const result = await UserModel.findByIdAndUpdate(
         { _id: userID },
         { profilePhoto: filePath }

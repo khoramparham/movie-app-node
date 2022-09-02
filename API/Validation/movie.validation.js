@@ -1,9 +1,14 @@
 const { body } = require("express-validator");
 const path = require("path");
 
-function imageValidator() {
+function movieValidator() {
   return [
-    body("img").custom((img, { req }) => {
+    body("name").notEmpty().withMessage("نام فیلم نمی تواند خالی باشد"),
+    body("rate").custom((rate, { req }) => {
+      if (!(0 <= rate && rate <= 10)) throw "امتیاز را درست انتخاب کنید";
+      return true;
+    }),
+    body("Photo").custom((value, { req }) => {
       if (req.file === undefined || req.file === null)
         throw "تصویر را انتخاب کنید";
       const ext = path.extname(req.file.originalname);
@@ -16,4 +21,6 @@ function imageValidator() {
     }),
   ];
 }
-module.exports = { imageValidator };
+module.exports = {
+  movieValidator,
+};

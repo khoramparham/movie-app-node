@@ -39,6 +39,8 @@ function createPath() {
   fs.mkdirSync(uploadPath, { recursive: true });
   return path.join("public", "upload", Year, Month, Day);
 }
+
+
 module.exports = {
   hashString,
   tokenGenerator,
