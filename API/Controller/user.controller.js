@@ -1,9 +1,12 @@
-const { pictureModel } = require("../Models/picture.model");
+// const { pictureModel } = require("../Models/picture.model");
 const { UserModel } = require("../Models/user.model");
+const { createLinkForFiles } = require("../Modules/function");
 class UserController {
   async getProfile(req, res, next) {
     try {
-      const user = req.user;
+      const userID = req.user._id;
+      const user = await UserModel.findById({ id: userID });
+      if (!user) throw "یافتن کاربر با مشکل مواجه شد";
       return res.status(200).json({
         status: 200,
         success: true,
@@ -51,10 +54,11 @@ class UserController {
       const userID = req.user._id;
       if (Object.keys(req.file).length == 0)
         throw { status: 400, message: "تصویر را انتخاب کنید" };
-      const filePath = req.file?.path?.substring(7).replace(/[\\\\]/gm,"/");
+      const filePath = req.file?.path?.substring(7).replace(/[\\\\]/gm, "/");
+      const photo = createLinkForFiles(filePath, req);
       const result = await UserModel.findByIdAndUpdate(
         { _id: userID },
-        { profilePhoto: filePath }
+        { profilePhoto: photo }
       );
       // const result = await pictureModel.create({
       //   fieldname: req.file.fieldname,

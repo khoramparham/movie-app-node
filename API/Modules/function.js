@@ -40,10 +40,14 @@ function createPath() {
   return path.join("public", "upload", Year, Month, Day);
 }
 
+function createLinkForFiles(fileAddress, req) {
+  return fileAddress? (req.protocol + "://" + req.get("host")+ "/" + (fileAddress.replace(/[\\\\]/gm, "/"))) : undefined
+}
 
 module.exports = {
   hashString,
   tokenGenerator,
   tokenVerify,
   createPath,
+  createLinkForFiles,
 };

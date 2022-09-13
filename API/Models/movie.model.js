@@ -6,30 +6,15 @@ const movieSchema = new mongoose.Schema(
     description: { type: String, default: "", required: false },
     rate: { type: Number, default: "", required: false },
     director: { type: mongoose.Types.ObjectId, ref: "User", required: false },
-    category: [
-      { type: mongoose.Types.ObjectId, ref: "Category", required: false },
-    ],
+    category: { type: [String], required: false },
     // like :  {},
-    // Photo: { type: mongoose.Types.ObjectId, ref: "Picture", required: false },
+    Photo: { type: String, default: [], required: false },
     insertedBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",
       required: false,
       default: null,
     },
-    updatedBy: {
-      type: mongoose.Types.ObjectId,
-      ref: "User",
-      required: false,
-      default: null,
-    },
-    deletedBy: {
-      type: mongoose.Types.ObjectId,
-      ref: "User",
-      required: false,
-      default: null,
-    },
-    deleteDate: { type: Date, default: null, required: false },
   },
   { timestamps: true }
 );
