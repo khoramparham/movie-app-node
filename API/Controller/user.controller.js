@@ -20,17 +20,21 @@ class UserController {
     try {
       const { firstName, lastName } = req.body;
       const userID = req.user._id;
-      await UserModel.findByIdAndUpdate(
+      const user = await UserModel.findById({ _id: userID });
+      if (!user) throw "کاربر یافت نشد";
+      const userUpdate = await UserModel.findByIdAndUpdate(
         { _id: userID },
         {
           firstName: firstName,
           lastName: lastName,
         }
       );
+      if (!userUpdate) throw "بروز رسانی با مشکل مواجه شد";
       return res.status(200).json({
         status: 200,
         success: true,
         message: "کاریر به روز رسانی شد",
+        userUpdate,
       });
     } catch (error) {
       next(error);
@@ -39,6 +43,8 @@ class UserController {
   async deleteUser(req, res, next) {
     try {
       const userID = req.user._id;
+      const user = await UserModel.findById({ _id: userID });
+      if (!user) throw "کاربری وجود ندارد";
       await UserModel.deleteOne({ _id: userID });
       return res.status(200).json({
         status: 200,
@@ -82,7 +88,17 @@ class UserController {
       next(error);
     }
   }
-  async findUser(req, res, next) {}
+  async findUserByID(req, res, next) {
+    const userID = req.params.id;
+    const user = await UserModel.findById({ _id: userID });
+    if (!user) throw "کاربری وجود ندارد";
+    return res.status(200).json({
+      status: 200,
+      success: true,
+      message: "کاربر با موفقیت یافت شد",
+      user,
+    });
+  }
   async searchUser(req, res, next) {}
 }
 module.exports = {

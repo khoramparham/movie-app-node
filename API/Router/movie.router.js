@@ -20,7 +20,12 @@ router.get(
   MovieController.getMovieByID
 );
 router.get("/getAllMovie", checkLogin, MovieController.getAllMovie);
-router.patch("/edit", checkLogin, MovieController.editMovie);
+router.patch(
+  "/edit/:id",
+  mongoIDValidator(),
+  checkLogin,
+  MovieController.editMovie
+);
 router.delete(
   "/delete/:id",
   mongoIDValidator(),

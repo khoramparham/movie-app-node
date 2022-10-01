@@ -1,4 +1,3 @@
-
 module.exports = class Application {
   #express = require("express");
   #app = this.#express();
@@ -20,9 +19,36 @@ module.exports = class Application {
   }
   configApplication() {
     const path = require("path");
+    const swaggerUI = require("swagger-ui-express");
+    const swaggerJsdoc = require("swagger-jsdoc");
     this.#app.use(this.#express.static(path.join(__dirname, "..", "public")));
     this.#app.use(this.#express.json());
     this.#app.use(this.#express.urlencoded({ extended: true }));
+    this.#app.use(
+      "/api-doc",
+      swaggerUI.serve,
+      swaggerUI.setup(
+        swaggerJsdoc({
+          swaggerDefinition: {
+            info: {
+              title: "Express API for movie app ",
+              version: "1.0.0",
+              description: "This is a REST API application made with Express.",
+            },
+            contact: {
+              name: 'parham khoram',
+              url: 'https://www.linkedin.com/in/parhamkhoram',
+            },
+            servers: [
+              {
+                url: "http://localhost:3000",
+              },
+            ],
+          },
+          apis: ["./API/Router/*.router.js"],
+        })
+      )
+    );
   }
   createRoutes() {
     const { allRoutes } = require("./Router/router");

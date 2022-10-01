@@ -30,7 +30,7 @@ class MovieController {
   async getMovieByID(req, res, next) {
     try {
       const movieID = req.params.id;
-      const movie = await movieModel.findById({ _id: movieID });
+      const movie = await movieModel.findOne({ _id: movieID });
       if (!movie) throw "فیلم یافت نشد";
       return res.status(200).json({
         status: 200,
@@ -56,6 +56,24 @@ class MovieController {
   }
   async editMovie(req, res, next) {
     try {
+      const userID = req.user._id;
+      const movieID = req.params.id;
+      const { name, description, rate, director, category } = req.body;
+      const movie = await movieModel.findOne({
+        _id: movieID,
+        insertedBy: userID,
+      });
+      if (!movie) throw "فیلم یافت نشد";
+      const movieUpdate = await movieModel.findByIdAndUpdate(
+        { _id: movieID },
+        { name, description, rate, director, category }
+      );
+      return res.status(200).json({
+          status: 200,
+          success: true,
+          message: "فیلم با موفقیت به روز رسانی شد",
+          movieUpdate,
+        });
     } catch (error) {
       next(error);
     }
@@ -65,6 +83,7 @@ class MovieController {
       const userID = req.user._id;
       const movieID = req.params.id;
       const movie = await movieModel.findById({ _id: movieID });
+      if (!movie) throw "فیلم یافت نشد";
       // if (userID == movie.insertedBy)
       //   throw { status: 400, message: "شما برای حذف این فیلم مجوز ندارید" };
       const movieDeleted = await movieModel.findByIdAndDelete({ _id: movieID });
