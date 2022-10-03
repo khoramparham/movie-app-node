@@ -11,19 +11,30 @@ module.exports = class Application {
   configDataBase(DB_URL) {
     const mongoose = require("mongoose");
     mongoose.connect(DB_URL, (error) => {
-      if (error) {
-        throw error;
-      }
+      if (error) throw error.message;
       return console.log("Connect to DB successful...");
+    });
+    mongoose.connection.on("connected", () => {
+      console.log("mongoose connected to mongodb");
+    });
+    mongoose.connection.on("disconnected", () => {
+      console.log("mongoose connection is disconnected");
+    });
+    process.on("SIGINT", async () => {
+      await mongoose.connection.close();
+      console.log("mongoose disconnected");
+      process.exit(0);
     });
   }
   configApplication() {
+    // app config
     const path = require("path");
-    const swaggerUI = require("swagger-ui-express");
-    const swaggerJsdoc = require("swagger-jsdoc");
     this.#app.use(this.#express.static(path.join(__dirname, "..", "public")));
     this.#app.use(this.#express.json());
     this.#app.use(this.#express.urlencoded({ extended: true }));
+    // swagger config
+    const swaggerUI = require("swagger-ui-express");
+    const swaggerJsdoc = require("swagger-jsdoc");
     this.#app.use(
       "/api-doc",
       swaggerUI.serve,
@@ -36,8 +47,8 @@ module.exports = class Application {
               description: "This is a REST API application made with Express.",
             },
             contact: {
-              name: 'parham khoram',
-              url: 'https://www.linkedin.com/in/parhamkhoram',
+              name: "parham khoram",
+              url: "https://www.linkedin.com/in/parhamkhoram",
             },
             servers: [
               {
@@ -47,9 +58,12 @@ module.exports = class Application {
           },
           apis: ["./API/Router/*.router.js"],
         })
-      )
-    );
-  }
+        )
+        );
+        // morgran config
+        const morgan = require("morgan");
+        this.#app.use(morgan("dev"));
+      }
   createRoutes() {
     const { allRoutes } = require("./Router/router");
     this.#app.get("/", (req, res, next) => {
