@@ -42,14 +42,15 @@ module.exports = class Application {
       swaggerUI.setup(
         swaggerJsdoc({
           swaggerDefinition: {
+            openapi: "3.0.0",
             info: {
               title: "Express API for movie app ",
               version: "1.0.0",
               description: "This is a REST API application made with Express.",
-            },
-            contact: {
-              name: "parham khoram",
-              url: "https://www.linkedin.com/in/parhamkhoram",
+              contact: {
+                name: "parham khoram",
+                url: "https://www.linkedin.com/in/parhamkhoram",
+              },
             },
             servers: [
               {
@@ -67,8 +68,9 @@ module.exports = class Application {
             },
             security: [{ BearerAuth: [] }],
           },
-          apis: ["./API/Router/*.router.js"],
-        })
+          apis: ["./API/Router/swagger/*.swagger.js"],
+        }),
+        { explorer: true }
       )
     );
     // morgan config
