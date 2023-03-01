@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://expressjs.com/" target="blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6BA4Og_PV-WkZE8rEhBWMxJ0eWcHLLUvjlQ&usqp=CAU" width="320" alt="NodeJS Logo" /></a>
+  <a href="https://expressjs.com/" target="blank"><img src="https://externlabs.com/blogs/wp-content/uploads/2021/11/New-Project-2022-07-23T140954.925.jpg" width="320" alt="NodeJS Logo" /></a>
 </p>
 
   <h1 align="center"> 
