@@ -17,7 +17,8 @@ module.exports = class Application {
     mongoose.connection.on("connected", () => {
       console.log("mongoose connected to mongodb");
     });
-    mongoose.connection.on("disconnected", () => {
+    mongoose.connection.on("disconnected", (error) => {
+      if (error) console.log(error.message);
       console.log("mongoose connection is disconnected");
     });
     process.on("SIGINT", async () => {
@@ -55,20 +56,30 @@ module.exports = class Application {
                 url: "http://localhost:3000",
               },
             ],
+            components: {
+              securitySchemes: {
+                BearerAuth: {
+                  type: "http",
+                  scheme: "bearer",
+                  bearerFormat: "JWT",
+                },
+              },
+            },
+            security: [{ BearerAuth: [] }],
           },
           apis: ["./API/Router/*.router.js"],
         })
-        )
-        );
-        // morgran config
-        const morgan = require("morgan");
-        this.#app.use(morgan("dev"));
-      }
+      )
+    );
+    // morgan config
+    const morgan = require("morgan");
+    this.#app.use(morgan("dev"));
+  }
   createRoutes() {
     const { allRoutes } = require("./Router/router");
     this.#app.get("/", (req, res, next) => {
       return res.json({
-        message: "this is a new experess app",
+        message: "this is a new express app",
       });
     });
     this.#app.use(allRoutes);
