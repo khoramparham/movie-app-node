@@ -7,9 +7,10 @@ const { imageValidator } = require("../Validation/user.validation");
 const router = require("express").Router();
 
 router.get("/profile", checkLogin, UserController.getProfile);
+router.get("/profileByID/:id", checkLogin, UserController.findUserByID);
 router.put("/update", checkLogin, UserController.updateUser);
-router.delete("/delete", checkLogin, UserController.deleteUser);
-router.post(
+router.delete("/delete/:id", checkLogin, UserController.deleteUser);
+router.put(
   "/uploadProfileImage",
   checkLogin,
   uploadMulter.single("img"),

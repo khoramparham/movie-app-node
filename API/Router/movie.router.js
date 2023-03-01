@@ -13,25 +13,10 @@ router.post(
   expressValidatorMapper,
   MovieController.storeMovie
 );
-router.get(
-  "/:id",
-  mongoIDValidator(),
-  checkLogin,
-  MovieController.getMovieByID
-);
+router.get("/get/:id", mongoIDValidator(), checkLogin, MovieController.getMovieByID);
 router.get("/getAllMovie", checkLogin, MovieController.getAllMovie);
-router.patch(
-  "/edit/:id",
-  mongoIDValidator(),
-  checkLogin,
-  MovieController.editMovie
-);
-router.delete(
-  "/delete/:id",
-  mongoIDValidator(),
-  checkLogin,
-  MovieController.deleteMovie
-);
+router.patch("/edit/:id", mongoIDValidator(), checkLogin, MovieController.editMovie);
+router.delete("/delete/:id", mongoIDValidator(), checkLogin, MovieController.deleteMovie);
 router.get("/search", checkLogin, MovieController.searchMovie);
 
 module.exports = {

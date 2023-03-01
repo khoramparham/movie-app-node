@@ -10,13 +10,7 @@ router.post(
   AuthController.register
 );
 
-router.post(
-  "/login",
-  loginValidator(),
-  expressValidatorMapper,
-  AuthController.login
-);
-
+router.post("/login", loginValidator(), expressValidatorMapper, AuthController.login);
 
 module.exports = {
   authRoutes: router,

@@ -16,8 +16,7 @@ class MovieController {
         category,
         insertedBy: userID,
       });
-      if (!movie)
-        throw { status: 400, message: "افزودن فیلم با مشکل مواجه شد" };
+      if (!movie) throw { status: 400, message: "افزودن فیلم با مشکل مواجه شد" };
       return res.status(201).json({
         status: 201,
         success: true,
@@ -69,11 +68,11 @@ class MovieController {
         { name, description, rate, director, category }
       );
       return res.status(200).json({
-          status: 200,
-          success: true,
-          message: "فیلم با موفقیت به روز رسانی شد",
-          movieUpdate,
-        });
+        status: 200,
+        success: true,
+        message: "فیلم با موفقیت به روز رسانی شد",
+        movieUpdate,
+      });
     } catch (error) {
       next(error);
     }
@@ -87,8 +86,7 @@ class MovieController {
       // if (userID == movie.insertedBy)
       //   throw { status: 400, message: "شما برای حذف این فیلم مجوز ندارید" };
       const movieDeleted = await movieModel.findByIdAndDelete({ _id: movieID });
-      if (movieDeleted.deletedCount == 0)
-        throw { status: 400, message: "پروژه حذف نشد" };
+      if (movieDeleted.deletedCount == 0) throw { status: 400, message: "پروژه حذف نشد" };
       return res.status(200).json({
         status: 200,
         success: true,

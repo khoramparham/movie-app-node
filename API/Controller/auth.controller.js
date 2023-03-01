@@ -4,8 +4,7 @@ const bcrypt = require("bcrypt");
 class AuthController {
   async register(req, res, next) {
     try {
-      const { userName, password, email, mobile, firstName, lastName } =
-        req.body;
+      const { userName, password, email, mobile, firstName, lastName } = req.body;
       const hash_password = hashString(password);
       const User = await UserModel.create({
         firstName,

@@ -66,17 +66,6 @@ class UserController {
         { _id: userID },
         { profilePhoto: photo }
       );
-      // const result = await pictureModel.create({
-      //   fieldname: req.file.fieldname,
-      //   originalname: req.file.originalname,
-      //   mimeType: req.file.mimeType,
-      //   destination: req.file.destination,
-      //   filename: req.file.filename,
-      //   path: req.file.path,
-      //   size: req.file.size,
-      //   typePicture: ,
-      //   referenceType: userID,
-      // });
       if (result.modifiedCount == 0)
         throw { status: 400, message: "به روزرسانی انجام نشد" };
       return res.status(200).json({
